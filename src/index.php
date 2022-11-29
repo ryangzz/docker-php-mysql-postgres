@@ -3,13 +3,6 @@
 include 'config/con-mysql.php';
 include 'config/fn.php';
 
-$timezones = array(
-    'SP' => 'America/Sao_Paulo',
-    'BA' => 'America/Bahia'
-);
-
-date_default_timezone_set($timezones['SP']);
-
 ?>
 
 <!DOCTYPE html>
@@ -28,6 +21,13 @@ date_default_timezone_set($timezones['SP']);
         <div onclick="handleGoToPgsql()">
             <h1>Hello World - PDO MySQL - <?= date('d/m/Y H:i:s') ?></h1>
             <span><?= listarUsuariosMysql() ?></span>
+        </div>
+    </section>
+
+    <section>
+        <div onclick="handleGoToPgsql()">
+            <h1>Hello World - PDO MySQL - <?= date('d/m/Y H:i:s') ?></h1>
+            <span><?= listarUsuariosPgsql() ?></span>
         </div>
     </section>
 

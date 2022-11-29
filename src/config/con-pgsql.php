@@ -1,6 +1,6 @@
 <?php
 
-$server = 'mrb-pgsql';
+$server = 'postgres';
 $db = 'postgres';
 $user = 'postgres';
 $pass = 'postgres';

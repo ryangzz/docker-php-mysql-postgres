@@ -2,14 +2,6 @@
 
 include 'config/con-pgsql.php';
 include 'config/fn.php';
-
-$timezones = array(
-    'SP' => 'America/Sao_Paulo',
-    'BA' => 'America/Bahia'
-);
-
-date_default_timezone_set($timezones['SP']);
-
 ?>
 
 <!DOCTYPE html>
