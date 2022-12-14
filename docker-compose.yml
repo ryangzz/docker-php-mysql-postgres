@@ -15,20 +15,20 @@ services:
             - mysql
             - postgres
 
-    phpmyadmin:
-        build:
-            context: ./phpmyadmin
-            dockerfile: Dockerfile
-        container_name: phpmyadmin
-        restart: always
-        volumes:
-            - /sessions
-        ports:
-            - "8080:80"
-        links:
-            - mysql
-        environment:
-            - PMA_ARBITRARY=1 # Habilitando a opção para inserir host no login
+    # phpmyadmin:
+    #     build:
+    #         context: ./phpmyadmin
+    #         dockerfile: Dockerfile
+    #     container_name: phpmyadmin
+    #     restart: always
+    #     volumes:
+    #         - /sessions
+    #     ports:
+    #         - "8080:80"
+    #     links:
+    #         - mysql
+    #     environment:
+    #         - PMA_ARBITRARY=1 # Habilitando a opção para inserir host no login
 
     postgres:
         image:  postgres
@@ -54,6 +54,20 @@ services:
             MYSQL_DATABASE: test
             MYSQL_PASSWORD: test
             MYSQL_ROOT_PASSWORD: test
+
+    mssql:
+        image: mcr.microsoft.com/mssql/server:2022-latest
+        container_name: mssql
+        restart: always # Por padrão o Docker não reinicia o container, vamos mudar isso.
+        ports:
+            - '1433:1433'
+        environment:
+            - ACCEPT_EULA=Y
+            - SA_PASSWORD=Secret1234
+        volumes:
+            - './data:/var/opt/mssql'
+volumes:
+  persistent:
 #-----------------------------------------------------------------------------------------------------------------------------------------------#
 # Caso dê problema para seu PHP conectar ao banco, use a versão 5.7 do MySQL ou faça o tutorial abaixo:
 # docker container exec -it mrb-mysql bash
