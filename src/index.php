@@ -19,15 +19,22 @@ include 'config/fn.php';
 
     <section>
         <div onclick="handleGoToPgsql()">
-            <h1>Hello World - PDO MySQL - <?= date('d/m/Y H:i:s') ?></h1>
+            <h2>Hello World - PDO MySQL - <?= date('d/m/Y H:i:s') ?></h2>
             <span><?= listarUsuariosMysql() ?></span>
         </div>
     </section>
 
     <section>
         <div onclick="handleGoToPgsql()">
-            <h1>Hello World - PDO MySQL - <?= date('d/m/Y H:i:s') ?></h1>
+            <h2>Hello World - PDO MySQL - <?= date('d/m/Y H:i:s') ?></h2>
             <span><?= listarUsuariosPgsql() ?></span>
+        </div>
+    </section>
+
+    <section>
+        <div onclick="handleGoToPgsql()">
+            <h2>Hello World - MSSQL - <?= date('d/m/Y H:i:s') ?></h2>
+            <span><?= listarUsuariosMssql() ?></span>
         </div>
     </section>
 

@@ -29,20 +29,38 @@ RUN apt-get update
 RUN ACCEPT_EULA=Y apt-get install -y msodbcsql18
 # optional: for bcp and sqlcmd
 RUN ACCEPT_EULA=Y apt-get install -y mssql-tools18
-RUN echo 'export PATH="$PATH:/opt/mssql-tools18/bin"' >> ~/.bashrc
-RUN source ~/.bashrc
-# optional: for unixODBC development headers
-RUN apt-get install -y unixodbc-dev
-# optional: kerberos library for debian-slim distributions
-RUN apt-get install -y libgssapi-krb5-2
-RUN pecl install sqlsrv
-RUN pecl install pdo_sqlsrv
-RUN printf "; priority=20\nextension=sqlsrv.so\n" > /etc/php/8.1/mods-available/sqlsrv.ini
-RUN printf "; priority=30\nextension=pdo_sqlsrv.so\n" > /etc/php/8.1/mods-available/pdo_sqlsrv.ini
-RUN exit
-RUN phpenmod -v 8.1 sqlsrv pdo_sqlsrv
+# RUN echo 'export PATH="$PATH:/opt/mssql-tools18/bin"' >> ~/.bashrc
+# #RUN apk add --no-cache --upgrade bash
+# #RUN source ~/.bashrc
+# # optional: for unixODBC development headers
+# RUN apt-get install -y unixodbc-dev
+# # optional: kerberos library for debian-slim distributions
+# RUN apt-get install -y libgssapi-krb5-2
+# RUN pecl install sqlsrv
+# RUN pecl install pdo_sqlsrv
+# RUN printf "; priority=20\nextension=sqlsrv.so\n" > /etc/php/8.1/mods-available/sqlsrv.ini
+# RUN printf "; priority=30\nextension=pdo_sqlsrv.so\n" > /etc/php/8.1/mods-available/pdo_sqlsrv.ini
+# RUN exit
+# RUN phpenmod -v 8.1 sqlsrv pdo_sqlsrv
 # RUN apt-get update
 # RUN pecl install sqlsrv
 # RUN pecl install pdo_sqlsrv
-# RUN docker-php-ext-enable sqlsrv
-# RUN docker-php-ext-enable pdo_sqlsrv
+
+RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
+    && curl https://packages.microsoft.com/config/debian/9/prod.list > /etc/apt/sources.list.d/mssql-release.list \
+    && apt-get update
+
+# Install sqlsrv
+RUN apt-get update
+RUN apt-get install -y wget
+RUN wget http://ftp.br.debian.org/debian/pool/main/g/glibc/multiarch-support_2.24-11+deb9u4_amd64.deb && \
+    dpkg -i multiarch-support_2.24-11+deb9u4_amd64.deb
+RUN apt-get -y install msodbcsql18 unixodbc-dev -y
+RUN pecl install sqlsrv pdo_sqlsrv
+RUN docker-php-ext-enable sqlsrv
+RUN docker-php-ext-enable pdo_sqlsrv
+RUN apt-get update -yqq \
+    && apt-get install -y --no-install-recommends openssl \ 
+    && sed -i 's,^\(MinProtocol[ ]*=\).*,\1'TLSv1.0',g' /etc/ssl/openssl.cnf \
+    && sed -i 's,^\(CipherString[ ]*=\).*,\1'DEFAULT@SECLEVEL=1',g' /etc/ssl/openssl.cnf\
+    && rm -rf /var/lib/apt/lists/*
