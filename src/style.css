@@ -5,9 +5,11 @@ body {
 section {
     display: flex;
     justify-content: center;
-    margin-top: 100px;
+    margin-top: 50px;
 }
-
+p{
+    margin: 0
+}
 section>div {
     min-width: 200px;
     width: 1000px;
@@ -31,7 +33,7 @@ section>div:hover {
 }
 
 section>div>:nth-child(1) {
-    font-size: 30px;
+    font-size: 20px;
     display: flex;
     justify-content: center;
     width: 100%;

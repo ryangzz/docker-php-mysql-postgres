@@ -45,15 +45,20 @@ services:
         image: mysql # A versão 8.0 está com instabilidades
         container_name: mysql
         restart: always # Por padrão o Docker não reinicia o container, vamos mudar isso.
-        volumes:
-            - /var/lib/mysql
+        image: mysql
         ports: 
             - "3306:3306"
         command: --default-authentication-plugin=mysql_native_password
         environment:
             MYSQL_DATABASE: test
             MYSQL_PASSWORD: test
-            MYSQL_ROOT_PASSWORD: test
+            MYSQL_ROOT_PASSWORD: test 
+        volumes:
+            - ./dump:/docker-entrypoint-initdb.d
+            - ./conf:/etc/mysql/conf.d
+            - persistent:/var/lib/mysql
+        networks:
+            - default
 
     mssql:
         image: mcr.microsoft.com/mssql/server:2022-latest
