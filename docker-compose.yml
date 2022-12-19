@@ -42,10 +42,9 @@ services:
             - POSTGRES_PASSWORD=postgres
             - POSTGRES_DB=postgres
     mysql:
-        image: mysql # A versão 8.0 está com instabilidades
-        container_name: mysql
-        restart: always # Por padrão o Docker não reinicia o container, vamos mudar isso.
         image: mysql
+        container_name: mysql
+        restart: always
         ports: 
             - "3306:3306"
         command: --default-authentication-plugin=mysql_native_password
@@ -73,12 +72,3 @@ services:
             - './data:/var/opt/mssql'
 volumes:
   persistent:
-#-----------------------------------------------------------------------------------------------------------------------------------------------#
-# Caso dê problema para seu PHP conectar ao banco, use a versão 5.7 do MySQL ou faça o tutorial abaixo:
-# docker container exec -it mrb-mysql bash
-# mysql -u root -p
-# ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'root';
-# ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY 'root';
-# ALTER USER 'default'@'%' IDENTIFIED WITH mysql_native_password BY 'secret';
-#-----------------------------------------------------------------------------------------------------------------------------------------------#
-
